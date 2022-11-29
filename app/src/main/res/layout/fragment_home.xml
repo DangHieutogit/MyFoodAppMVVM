@@ -100,8 +100,8 @@
         android:layout_marginTop="@dimen/_18ssp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Rcv_data_meals_popular"
-        android:layout_width="wrap_content"
+        android:id="@+id/rec_view_meals_popular"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
         android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginEnd="@dimen/_10sdp"
@@ -119,8 +119,8 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_17ssp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/Rcv_data_meals_popular"
-        app:layout_constraintTop_toBottomOf="@id/Rcv_data_meals_popular"/>
+        app:layout_constraintStart_toStartOf="@id/rec_view_meals_popular"
+        app:layout_constraintTop_toBottomOf="@id/rec_view_meals_popular"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
