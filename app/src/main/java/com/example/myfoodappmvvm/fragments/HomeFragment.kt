@@ -78,6 +78,18 @@ class HomeFragment : Fragment() {
         //phần 6
         homeMvvm.getPopularItems()
         observerPopularItemsLiveData()
+        //phan 6
+        onPopularItemClick()
+    }
+    //sau khi an vao popular adapter se hien ra cac phan nay sẽ hiện ra màn hình MealActivity
+    private fun onPopularItemClick() {
+        popularItemsAdapter.onItemClick = { meal->
+            val intent = Intent(activity,MealActivity::class.java)
+            intent.putExtra(MEAL_ID,meal.idMeal)
+            intent.putExtra(MEAL_NAME,meal.strMeal)
+            intent.putExtra(MEAL_THUMB,meal.strMealThumb)
+            startActivity(intent)
+        }
     }
 
     //phần 6

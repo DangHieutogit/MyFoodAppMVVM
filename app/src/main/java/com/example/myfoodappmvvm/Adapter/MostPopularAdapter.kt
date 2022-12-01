@@ -9,8 +9,7 @@ import com.example.myfoodappmvvm.pojo.CategoryMeals
 import java.util.ArrayList
 
 class MostPopularAdapter():RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
-
-    class PopularMealViewHolder(var binding:PopularItemsBinding):RecyclerView.ViewHolder(binding.root)
+    lateinit var onItemClick:((CategoryMeals) ->Unit)
 
     private var mealsList = ArrayList<CategoryMeals>()
 
@@ -28,12 +27,17 @@ class MostPopularAdapter():RecyclerView.Adapter<MostPopularAdapter.PopularMealVi
     override fun onBindViewHolder(holder: PopularMealViewHolder, position: Int) {
         Glide.with(holder.itemView)
             .load(mealsList[position].strMealThumb)
-            .into(holder.binding.imgPopularMealItem)
+            .into(holder.binding.imgPopularMeal)
+
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(mealsList[position])
+        }
     }
-
-
 
     override fun getItemCount(): Int {
         return mealsList.size
     }
+
+    class PopularMealViewHolder(var binding:PopularItemsBinding):RecyclerView.ViewHolder(binding.root)
+
 }
