@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myfoodappmvvm.pojo.CategoryList
-import com.example.myfoodappmvvm.pojo.CategoryMeals
+import com.example.myfoodappmvvm.pojo.*
 
-import com.example.myfoodappmvvm.pojo.Meal
-import com.example.myfoodappmvvm.pojo.MealList
 import com.example.myfoodappmvvm.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,7 +14,9 @@ import retrofit2.Response
 class HomeViewModel():ViewModel() {
     private  var randomMealLiveData = MutableLiveData<Meal>()
    //Phần 6
-    private var popularItemsLiveData = MutableLiveData<List<CategoryMeals>>()
+    private var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()
+    //#P7
+    private var categoriesLiveData = MutableLiveData<List<MealsByCategoryList>>()
 
     fun getRandomMeal(){
         //khai bao thuc hien RandomMeal ở cái bản img_random_meal cho nay chạy
@@ -48,25 +47,27 @@ class HomeViewModel():ViewModel() {
     }
     //phần 6 call api popular
     fun getPopularItems(){
-        RetrofitInstance.api.getPopularItems("Seafood").enqueue(object :Callback<CategoryList>{
-            override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
+        RetrofitInstance.api.getPopularItems("Seafood").enqueue(object :Callback<MealsByCategoryList>{
+            override fun onResponse(call: Call<MealsByCategoryList>, response: Response<MealsByCategoryList>) {
                if (response.body() !=null){
                    popularItemsLiveData.value = response.body()!!.meals
                }
             }
 
-            override fun onFailure(call: Call<CategoryList>, t: Throwable) {
+            override fun onFailure(call: Call<MealsByCategoryList>, t: Throwable) {
                 Log.d("HomeFragment",t.message.toString())
             }
 
         })
     }
 
+    //#P7
+
     fun observeRandomMealLiveData():LiveData<Meal>{
         return randomMealLiveData
     }
     //phần 6
-    fun observerPopularItemLiveData():LiveData<List<CategoryMeals>>{
+    fun observerPopularItemLiveData():LiveData<List<MealsByCategory>>{
         return popularItemsLiveData
     }
 }
