@@ -16,7 +16,7 @@ class HomeViewModel():ViewModel() {
    //Phần 6
     private var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()
     //#P7
-    private var categoriesLiveData = MutableLiveData<List<MealsByCategoryList>>()
+    private var categoriesLiveData = MutableLiveData<List<Category>>()
 
     fun getRandomMeal(){
         //khai bao thuc hien RandomMeal ở cái bản img_random_meal cho nay chạy
@@ -62,6 +62,21 @@ class HomeViewModel():ViewModel() {
     }
 
     //#P7
+    fun getCategories(){
+        RetrofitInstance.api.getCategories().enqueue(object : Callback<CategoryList>{
+            override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
+                response.body()?.let { categoryList ->
+                    categoriesLiveData.postValue(categoryList.categories)
+                }
+            }
+
+            override fun onFailure(call: Call<CategoryList>, t: Throwable) {
+                Log.e("HomeViewModel",t.message.toString())
+            }
+
+        })
+    }
+
 
     fun observeRandomMealLiveData():LiveData<Meal>{
         return randomMealLiveData
@@ -69,5 +84,9 @@ class HomeViewModel():ViewModel() {
     //phần 6
     fun observerPopularItemLiveData():LiveData<List<MealsByCategory>>{
         return popularItemsLiveData
+    }
+    //phan 7
+    fun observeCategoriesLiveData(): LiveData<List<Category>>{
+        return  categoriesLiveData
     }
 }

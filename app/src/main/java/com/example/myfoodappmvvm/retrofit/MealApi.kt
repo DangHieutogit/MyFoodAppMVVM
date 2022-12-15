@@ -1,5 +1,6 @@
 package com.example.myfoodappmvvm.retrofit
 
+import com.example.myfoodappmvvm.pojo.CategoryList
 import com.example.myfoodappmvvm.pojo.MealsByCategoryList
 import com.example.myfoodappmvvm.pojo.MealList
 import retrofit2.Call
@@ -19,7 +20,8 @@ interface MealApi {
     @GET("filter.php?")
     fun getPopularItems(@Query("c")categoryName:String): Call<MealsByCategoryList>
     //#P7
+
     @GET("categories.php")
-    fun getCategories(): Call<MealsByCategoryList>
+    fun getCategories() : Call<CategoryList>
 
 }

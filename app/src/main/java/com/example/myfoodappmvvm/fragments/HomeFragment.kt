@@ -2,14 +2,17 @@ package com.example.myfoodappmvvm.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.myfoodappmvvm.Adapter.CategoriesAdapter
 import com.example.myfoodappmvvm.Adapter.MostPopularAdapter
 
 
@@ -19,7 +22,7 @@ import com.example.myfoodappmvvm.pojo.MealsByCategory
 import com.example.myfoodappmvvm.pojo.Meal
 
 import com.example.myfoodappmvvm.videoModel.HomeViewModel
-import java.util.ArrayList
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -29,6 +32,8 @@ class HomeFragment : Fragment() {
     private lateinit var randomMeal:Meal
     //phần 6
     private lateinit var popularItemsAdapter: MostPopularAdapter
+    //P7
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     companion object{
         //KHAI BAO CHO FRAGMENT CO ID, NAME
@@ -78,7 +83,30 @@ class HomeFragment : Fragment() {
         observerPopularItemsLiveData()
         //phan 6
         onPopularItemClick()
+
+        //phần 7
+        prepareCategoriesRecyclerView()
+        homeMvvm.getCategories()
+        observerCategoriesLiveData()
+
+
+
     }
+
+    private fun prepareCategoriesRecyclerView() {
+        categoriesAdapter = CategoriesAdapter()
+        binding.RcvCategories.apply {
+            layoutManager = GridLayoutManager(context,3,GridLayoutManager.VERTICAL,false)
+            adapter = categoriesAdapter
+        }
+    }
+
+    private fun observerCategoriesLiveData() {
+      homeMvvm.observeCategoriesLiveData().observe(viewLifecycleOwner, androidx.lifecycle.Observer { categories->
+              categoriesAdapter.setCategoryList(categories)
+      })
+    }
+
     //sau khi an vao popular adapter se hien ra cac phan nay sẽ hiện ra màn hình MealActivity
     private fun onPopularItemClick() {
         popularItemsAdapter.onItemClick = { meal->
